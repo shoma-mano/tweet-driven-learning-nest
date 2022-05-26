@@ -2,60 +2,59 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Post {
+type AccountsCount {
+  categories: Int!
+}
+
+type Category {
   id: ID!
-  title: String!
+  account_id: String!
   content: String
-  published: Boolean
-  author: User
-  authorId: Int
+  accounts: Account!
 }
 
-type UserCount {
-  posts: Int!
-}
-
-type User {
+type Account {
   id: ID!
-  email: String!
-  name: String
-  posts: [Post!]
-  _count: UserCount!
+  uid: String!
+  name: String!
+  bio: String
+  categories: [Category!]
+  _count: AccountsCount!
 }
 
 type Query {
-  users: [User!]!
-  user(id: Int!): User!
-  posts: [Post!]!
-  post(id: Int!): Post!
+  accounts: [Account!]!
+  account(id: Int!): Account!
+  categories: [Category!]!
+  category(id: Int!): Category!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
-  createPost(createPostInput: CreatePostInput!): Post!
-  updatePost(updatePostInput: UpdatePostInput!): Post!
-  removePost(id: Int!): Post!
+  createAccount(createAccountInput: CreateAccountInput!): Account!
+  updateAccount(updateAccountInput: UpdateAccountInput!): Account!
+  removeAccount(id: Int!): Account!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
 }
 
-input CreateUserInput {
+input CreateAccountInput {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
-input UpdateUserInput {
+input UpdateAccountInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
 }
 
-input CreatePostInput {
+input CreateCategoryInput {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
-input UpdatePostInput {
+input UpdateCategoryInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

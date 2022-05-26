@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { PrismaModule } from 'nestjs-prisma';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UsersModule } from './modules/users/users.module';
-import { PostsModule } from './modules/posts/posts.module';
+import { AccountsModule } from './modules/accounts/accounts.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [
@@ -15,7 +15,9 @@ import { PostsModule } from './modules/posts/posts.module';
       playground: true,
       autoSchemaFile: './src/schema.graphql',
     }),
-    PrismaModule.forRoot({ isGlobal: true }), UsersModule, PostsModule,
+    PrismaModule.forRoot({ isGlobal: true }),
+    AccountsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

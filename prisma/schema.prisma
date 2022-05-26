@@ -2,32 +2,35 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator nestgraphql {
+  provider = "node node_modules/prisma-nestjs-graphql"
+  output   = "../src/@generated/prisma-nestjs-graphql"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-//追加
-generator nestgraphql {
-    //v15.1.1以上の場合は"prisma-nestjs-graphql"のみでokです
-    provider = "node node_modules/prisma-nestjs-graphql"
-    output = "../src/@generated/prisma-nestjs-graphql"
+model accounts {
+  id         BigInt       @id @default(autoincrement())
+  uid        String       @db.Text
+  name       String       @db.Text
+  bio        String?      @db.Text
+  categories categories[]
 }
 
-//追加
-model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
-  name  String?
-  posts Post[]
+model categories {
+  id         BigInt   @id @default(autoincrement())
+  account_id BigInt
+  content    String?  @db.Text
+  accounts   accounts @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_categories_accounts")
+
+  @@index([account_id], map: "FK_categories_accounts")
 }
 
-//追加
-model Post {
-  id        Int      @default(autoincrement()) @id
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model tweets {
+  id      BigInt  @id @default(autoincrement())
+  uid     BigInt
+  content String? @db.Text
 }
