@@ -13,24 +13,28 @@ datasource db {
 }
 
 model accounts {
-  id         BigInt       @id @default(autoincrement())
-  uid        String       @db.Text
-  name       String       @db.Text
-  bio        String?      @db.Text
-  categories categories[]
+  id     BigInt   @id @default(autoincrement())
+  uid    String   @db.Text
+  name   String   @db.Text
+  bio    String?  @db.Text
+  tweets tweets[]
 }
 
 model categories {
-  id         BigInt   @id @default(autoincrement())
-  account_id BigInt
-  content    String?  @db.Text
-  accounts   accounts @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_categories_accounts")
+  id       BigInt  @id @default(autoincrement())
+  tweet_id BigInt
+  content  String? @db.Text
+  tweets   tweets  @relation(fields: [tweet_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_categories_accounts")
 
-  @@index([account_id], map: "FK_categories_accounts")
+  @@index([tweet_id], map: "FK_categories_accounts")
 }
 
 model tweets {
-  id      BigInt  @id @default(autoincrement())
-  uid     BigInt
-  content String? @db.Text
+  id         BigInt       @id @default(autoincrement())
+  account_id BigInt
+  content    String?      @db.Text
+  accounts   accounts     @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_tweets_accounts")
+  categories categories[]
+
+  @@index([account_id], map: "FK_tweets_accounts")
 }

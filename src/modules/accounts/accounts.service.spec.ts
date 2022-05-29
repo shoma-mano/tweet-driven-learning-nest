@@ -1,18 +1,47 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AccountsService } from './accounts.service';
+import { AccountRpcService } from './accounts.service';
+import { lastValueFrom } from 'rxjs';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 
-describe('AccountsService', () => {
-  let service: AccountsService;
+describe('AccountRpcService', () => {
+  let service: AccountRpcService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AccountsService],
+      imports: [
+        ClientsModule.register([
+          {
+            name: 'account',
+            transport: Transport.GRPC,
+            options: {
+              url: 'localhost:50051',
+              package: 'account',
+              protoPath: join(__dirname, '../../proto/account.proto'),
+            },
+          },
+        ]),
+      ],
+      providers: [AccountRpcService],
     }).compile();
 
-    service = module.get<AccountsService>(AccountsService);
+    service = module.get<AccountRpcService>(AccountRpcService);
+    service.onModuleInit();
   });
 
-  it('should be defined', () => {
+  it('findOne', async () => {
+    const result = await service.findOne('0');
     expect(service).toBeDefined();
+    console.log(result);
+  });
+
+  it('createOne', async () => {
+    const sub = service.create({
+      UID: 'testnest',
+      Bio: 'Test',
+      Name: 'test',
+    });
+    const result = await lastValueFrom(sub);
+    expect(result).toBe(1);
   });
 });

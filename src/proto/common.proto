@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = "pb/";
+
+package common;
+
+message AffectedRows {
+  int64 AffectedRows = 1;
+}
+
+message Empty{}

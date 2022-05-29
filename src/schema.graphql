@@ -8,9 +8,7 @@ type AccountsCount {
 
 type Category {
   id: ID!
-  account_id: String!
   content: String
-  accounts: Account!
 }
 
 type Account {
@@ -22,20 +20,32 @@ type Account {
   _count: AccountsCount!
 }
 
+type Tweet {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type AffectedRow {
+  """Example field (placeholder)"""
+  affectedRow: Int!
+}
+
 type Query {
   accounts: [Account!]!
-  account(id: Int!): Account!
+  account(uid: Int!): Account!
   categories: [Category!]!
   category(id: Int!): Category!
+  tweets: [Tweet!]!
+  tweet(id: Int!): Tweet!
 }
 
 type Mutation {
   createAccount(createAccountInput: CreateAccountInput!): Account!
   updateAccount(updateAccountInput: UpdateAccountInput!): Account!
   removeAccount(id: Int!): Account!
-  createCategory(createCategoryInput: CreateCategoryInput!): Category!
-  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   removeCategory(id: Int!): Category!
+  createTweet(createTweetInput: CreateTweetInput!): AffectedRow!
+  removeTweet(id: Int!): Tweet!
 }
 
 input CreateAccountInput {
@@ -49,13 +59,13 @@ input UpdateAccountInput {
   id: Int!
 }
 
-input CreateCategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input CreateTweetInput {
+  account_id: Int!
+  Content: String
+  categories: [CreateCategoryInput!]
 }
 
-input UpdateCategoryInput {
+input CreateCategoryInput {
   """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String!
 }

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option go_package = "pb/";
+
+package category;
+
+service CategoryService {
+}
+
+message CreateCategoryInput {
+    string name = 1;
+}

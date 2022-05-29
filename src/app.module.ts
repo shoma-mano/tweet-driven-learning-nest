@@ -6,6 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AccountsModule } from './modules/accounts/accounts.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { TweetsModule } from './modules/tweets/tweets.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
     PrismaModule.forRoot({ isGlobal: true }),
     AccountsModule,
     CategoriesModule,
+    TweetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

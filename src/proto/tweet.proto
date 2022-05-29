@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "pb/";
+
+package tweet;
+
+import "category.proto";
+import "common.proto";
+
+service TweetService {
+  rpc CreateTweet(CreateTweetInput) returns (common.AffectedRows) {}
+}
+
+message CreateTweetInput{
+  string Content = 1;
+  int64  AccountID = 2;
+  repeated category.CreateCategoryInput Categories = 3;
+}

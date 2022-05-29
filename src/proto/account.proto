@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option go_package = "pb/";
+
+package account;
+
+
+
+service AccountService {
+  rpc FindOneByUID (UID) returns (Account) {}
+  rpc CreateAccount(CreateAccountInput) returns (AffectedRows) {}
+}
+
+
+
+message UID{
+  string UID = 1;
+}
+
+message Account{
+  int64 ID = 1;
+  string UID = 2;
+  string Name = 3;
+  optional string Bio = 4;
+}
+
+message CreateAccountInput {
+  string UID = 1;
+  string Name = 2;
+  optional string Bio = 3;
+}
+
+message AffectedRows {
+  int64 AffectedRows = 1;
+}
+
+
+
+//////////////////
+
+//service TweetService {
+//  rpc CreateTweet(CreateTweetInput) returns (AffectedRows) {}
+//}
+
+//message CreateTweetInput{
+//  string Content = 1;
+//  int64  AccountID = 2;
+//  repeated CreateCategoryInput Categories = 3;
+//}
+
+//message CreateCategoryInput {
+//  string name = 1;
+//}

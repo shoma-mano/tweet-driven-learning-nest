@@ -1,15 +1,17 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { AccountsService } from './accounts.service';
+import { AccountRpcService } from './accounts.service';
 import { CreateAccountInput } from './dto/create-account.input';
 import { UpdateAccountInput } from './dto/update-account.input';
 import { Account } from './entities/accounts.model';
 
 @Resolver(() => Account)
 export class AccountsResolver {
-  constructor(private readonly accountsService: AccountsService) {}
+  constructor(private readonly accountsService: AccountRpcService) {}
 
   @Mutation(() => Account)
-  createAccount(@Args('createAccountInput') createAccountInput: CreateAccountInput) {
+  createAccount(
+    @Args('createAccountInput') createAccountInput: CreateAccountInput,
+  ) {
     return this.accountsService.create(createAccountInput);
   }
 
@@ -19,13 +21,18 @@ export class AccountsResolver {
   }
 
   @Query(() => Account, { name: 'account' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.accountsService.findOne(id);
+  findOne(@Args('uid', { type: () => Int }) uid: string) {
+    return this.accountsService.findOne(uid);
   }
 
   @Mutation(() => Account)
-  updateAccount(@Args('updateAccountInput') updateAccountInput: UpdateAccountInput) {
-    return this.accountsService.update(updateAccountInput.id, updateAccountInput);
+  updateAccount(
+    @Args('updateAccountInput') updateAccountInput: UpdateAccountInput,
+  ) {
+    return this.accountsService.update(
+      updateAccountInput.id,
+      updateAccountInput,
+    );
   }
 
   @Mutation(() => Account)
