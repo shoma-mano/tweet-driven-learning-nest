@@ -1,0 +1,26 @@
+name: learn-github-actions
+on: [push]
+jobs:
+  jest:
+    runs-on: ubuntu-latest
+    env: 
+     DATABASE_URL: mysql://root:root@127.0.0.1:3306/test
+    services:
+          mysql:
+            image: mysql:8
+            ports:
+              - 3306:3306
+            env:
+              MYSQL_DATABASE: test
+              MYSQL_ROOT_USER: root
+              MYSQL_ROOT_PASSWORD: root
+            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npx prisma migrate deploy
+      - run: npm run test
