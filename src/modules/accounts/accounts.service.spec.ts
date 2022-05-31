@@ -17,12 +17,12 @@ describe('AccountRpcService', () => {
             options: {
               url: 'localhost:50051',
               package: 'account',
-              protoPath: join(__dirname, '../../proto/account.proto')
-            }
-          }
-        ])
+              protoPath: join(__dirname, '../../proto/account.proto'),
+            },
+          },
+        ]),
       ],
-      providers: [AccountRpcService]
+      providers: [AccountRpcService],
     }).compile();
 
     service = module.get<AccountRpcService>(AccountRpcService);
@@ -39,7 +39,7 @@ describe('AccountRpcService', () => {
     const sub = service.create({
       UID: 'testnest',
       Bio: 'Test',
-      Name: 'test'
+      Name: 'test',
     });
     const result = await lastValueFrom(sub);
     expect(result.AffectedRows['low']).toBe(1);

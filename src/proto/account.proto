@@ -31,7 +31,7 @@ message CreateAccountInput {
 }
 
 message AffectedRows {
-  int64 AffectedRows = 1;
+  uint64 AffectedRows = 1;
 }
 
 
